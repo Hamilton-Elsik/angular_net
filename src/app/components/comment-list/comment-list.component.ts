@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Comment } from 'src/app/interfaces/comment';
+import { CommentService } from 'src/app/services/comment.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -8,15 +9,32 @@ import { Comment } from 'src/app/interfaces/comment';
 })
 export class CommentListComponent implements OnInit {
 
-  listComments: Comment[]=[
-    {title: 'Angular', creator: 'Fernando', creationDate: new  Date(), text: ':V'},
-    {title: 'React', creator: 'Miguel', creationDate: new  Date(), text: ':libreria para crear spa'},
-  
-  ]
+  listComments: Comment[] = [];
 
-  constructor() { }
+  constructor(private commentService: CommentService) { }
 
   ngOnInit(): void {
+    this.getComments();
+  }
+
+  getComments() {
+    this.commentService.getListComments()
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          this.listComments = data;
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
+  }
+
+  deleteComment(id: any) {
+    console.log(id);
+    this.commentService.deleteComment(id).subscribe(data => {
+      this.getComments();
+    });
   }
 
 }

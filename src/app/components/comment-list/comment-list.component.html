@@ -19,11 +19,13 @@
     </thead>
     <tbody>
         <tr *ngFor="let comment of listComments">
-            <td><a [routerLink]="['/view',1]">{{comment.title}}</a></td>
+            <td><a [routerLink]="['/view',comment.id]">{{comment.title}}</a></td>
             <td>{{comment.creator}}</td>
             <td>{{comment.creationDate | date:'dd/MM/yyyy'}}</td>
-            <td><button class="btn btn-primary btn-sm float-end"> Editar</button></td>
-            <td><button class="btn btn-danger btn-sm float-end">Borrar</button></td>
+            <td style="width: 10%;">
+                <button [routerLink]="['/edit', comment.id]" class="btn btn-primary btn-sm float-end"> Editar</button>
+            </td>
+            <td><button (click)="deleteComment(comment.id)" class="btn btn-danger btn-sm float-end">Borrar</button></td>
 
         </tr>
 
